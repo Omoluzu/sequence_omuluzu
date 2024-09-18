@@ -1,23 +1,18 @@
 import re
 from pathlib import Path
-from collections import namedtuple
+
+from src import sequence
 
 
-SequenceInfo = namedtuple(
-    'SequenceInfo',
-    ['regular', 'full_path', 'output_name', 'start_number']
-)
-
-
-def get_sequence_all_name(path: Path) -> dict[str, SequenceInfo]:
+def get_sequence_all_name(path: Path) -> 'sequence.Sequences':
     """Getting information about all possible sequences
     :param path: The path to finding sequences
     :return: information about sequences
     """
-    data = {}
+    sequences = sequence.Sequences()
 
-    for file in path.rglob('*.jpg'):
-        file_match = re.match(
+    for file in path.rglob('*.jpg'):  # todo: и даже инициализацию, см комментарий ниже
+        file_match = re.match(  # todo: Весь данный функционал можно закинуть я думаю в add_sequence
             r"^(?P<name>.+?)((?P<number>\d+)(?:\.jpg))$",
             file.name
         )
@@ -31,12 +26,14 @@ def get_sequence_all_name(path: Path) -> dict[str, SequenceInfo]:
         regular_number = '%0' + number + 'd' + file.suffix
         regular_name = file_match.group('name') + regular_number
 
-        if not data.get(regular_name):
-            data[regular_name] = SequenceInfo(
-                regular=regular_name,
-                full_path=file.absolute().parent,
-                output_name=file_match.group('name').strip() + '.mp4',
-                start_number=int(file_match.group('number'))
+        if not sequences.check_sequence(regular_name):
+            sequences.add_sequence(
+                sequence.SequenceInfo(
+                    regular=regular_name,
+                    full_path=file.absolute().parent,
+                    output_name=file_match.group('name').strip() + '.mp4',  # todo: позаботиться о лишней точке иногда бывает ..mp4
+                    start_number=int(file_match.group('number'))
+                )
             )
 
-    return data  # todo: общий класс со всей информацией.
+    return sequences

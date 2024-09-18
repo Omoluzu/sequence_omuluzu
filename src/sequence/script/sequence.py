@@ -1,6 +1,6 @@
 import os
 import ffmpeg
-from src.sequence.script import SequenceInfo
+from src.sequence import SequenceInfo
 
 
 def sequence(sequence_info: SequenceInfo, frame_rate: int = 25) -> None:

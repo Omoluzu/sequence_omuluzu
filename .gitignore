@@ -2,3 +2,5 @@
 files/*
 .idea/*
 tests/*
+.linux_venv/*
+*.mp4

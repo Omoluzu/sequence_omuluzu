@@ -14,5 +14,5 @@ def sequence(sequence_info: SequenceInfo, frame_rate: int = 25) -> None:
             start_number=sequence_info.start_number,
             framerate=frame_rate
         ),
-        sequence_info.output_name
-    ).run()
+        os.path.join(sequence_info.output_name)
+    ).run(overwrite_output=True)

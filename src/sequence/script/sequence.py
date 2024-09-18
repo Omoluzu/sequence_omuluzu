@@ -1,17 +1,18 @@
+import os
 import ffmpeg
+from src.sequence.script import SequenceInfo
 
 
-def sequence(input_pattern, output_file, frame_rate=25, start_number=1) -> None:
+def sequence(sequence_info: SequenceInfo, frame_rate: int = 25) -> None:
     """file sequence
-    :param input_pattern: Input file
-    :param output_file: output_file
+    :param sequence_info: Input file
     :param frame_rate: frame rate
-    :param start_number: Number of starts position
     """
-    test = ffmpeg.input(
-        input_pattern,
-        start_number=start_number,
-        framerate=frame_rate
-    )
-
-    ffmpeg.output(test, output_file).run()
+    ffmpeg.output(
+        ffmpeg.input(
+            os.path.join(sequence_info.full_path, sequence_info.regular),
+            start_number=sequence_info.start_number,
+            framerate=frame_rate
+        ),
+        sequence_info.output_name
+    ).run()

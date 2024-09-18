@@ -4,7 +4,7 @@ import threading
 from PySide6.QtWidgets import (
     QApplication, QMainWindow,
     QPushButton, QVBoxLayout,
-    QWidget, QLabel,
+    QWidget, QScrollArea,
     QFileDialog, QCheckBox
 )
 
@@ -15,9 +15,17 @@ class CheckBoxWidget(QWidget):
     def __init__(self, main):
         super().__init__()
 
+        self.scroll_area = QScrollArea()
+        self.scroll_area.setWidget(self)
+        self.scroll_area.setWidgetResizable(True)
+
         self.main = main
         self.layout = QVBoxLayout(self)
         self.setLayout(self.layout)
+
+        self.setStyleSheet("""
+            background-color: white;
+        """)
 
     def finds(self):
         checkboxes: list[QCheckBox] = self.findChildren(QCheckBox)
@@ -42,7 +50,7 @@ class MainWindow(QMainWindow):
         self.layout = QVBoxLayout()
 
         self.layout.addWidget(self.select_folder)
-        self.layout.addWidget(self.checkbox_widget)
+        self.layout.addWidget(self.checkbox_widget.scroll_area)
         self.layout.addWidget(self.show_all_checkbox)
 
         container = QWidget()

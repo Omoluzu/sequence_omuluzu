@@ -28,7 +28,8 @@ def get_sequence_all_name(path: Path) -> dict[str, Any]:
         if not data.get(name):  # todo. Скорее всего тут нужен namedtuple или кастомный класс
             data[name] = {
                 'path': file.absolute().parent,
-                'name': file_match.group('name').strip()
+                'name': file_match.group('name').strip(),
+                'start_number': int(file_match.group('number'))
             }
 
     return data  # todo: общий класс со всей информацией.

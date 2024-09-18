@@ -1,19 +1,26 @@
+import os.path
 from pathlib import Path
 
-from src.sequence.script import sequence
+from src.sequence.script import sequence, get_sequence_all_name
 
 
-def main():
+def main(path: Path):
+    data = get_sequence_all_name(path)
 
-    # path = Path(r'D:\Python\AlgousStudio\pythonProject\files\Explosion Huge')
+    need_file = list(data.keys())[3]
+    # print(need_file)
+    print(data[need_file])
     #
-    # for file in path.rglob('*.jpg'):
-    #     print(file)
-
     sequence(
-        'files/blood_and_blood/blood.%03d.jpg', 'blood_and_blood.mp4'
+        input_pattern=os.path.join(data[need_file]['path'], need_file),
+        output_file=data[need_file]['name'] + '.mp4'
     )
 
 
+
+
 if __name__ == '__main__':
-    main()
+    main(
+        # Path(r'D:\Python\AlgousStudio\pythonProject\files\Explosion Huge')
+        Path(r'files')
+    )

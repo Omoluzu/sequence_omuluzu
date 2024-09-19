@@ -5,7 +5,8 @@ from PySide6.QtWidgets import (
     QApplication, QMainWindow,
     QPushButton, QVBoxLayout,
     QWidget, QScrollArea,
-    QFileDialog, QCheckBox
+    QFileDialog, QCheckBox,
+    QMessageBox
 )
 
 from src.sequence.script import sequence, get_sequence_all_name
@@ -80,10 +81,14 @@ class MainWindow(QMainWindow):
     def open_folder_dialog(self):
         folder_path = QFileDialog.getExistingDirectory(self, "Выберите папку")
         if folder_path:
-            self.sequences = get_sequence_all_name(Path(folder_path))
-            for name in self.sequences.names:
-                checkbox = CheckSequenceWidget(name)
-                self.checkbox_widget.layout.addWidget(checkbox)
+            try:
+                self.sequences = get_sequence_all_name(Path(folder_path))
+            except OSError as err:
+                show_error_message(str(err))
+            else:
+                for name in self.sequences.names:
+                    checkbox = CheckSequenceWidget(name)
+                    self.checkbox_widget.layout.addWidget(checkbox)
 
     def run_sequence(self, sequence_name):
         thread = threading.Thread(
@@ -93,6 +98,15 @@ class MainWindow(QMainWindow):
             )
         )
         thread.start()
+
+
+def show_error_message(err):
+    msg = QMessageBox()
+    msg.setWindowTitle("Ошибка")
+    msg.setText(err)
+    msg.setIcon(QMessageBox.Critical)
+    msg.setStandardButtons(QMessageBox.Ok)
+    msg.exec()
 
 
 if __name__ == "__main__":

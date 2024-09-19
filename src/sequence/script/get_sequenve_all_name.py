@@ -8,6 +8,7 @@ def get_sequence_all_name(path: Path) -> 'sequence.Sequences':
     """Getting information about all possible sequences
     :param path: The path to finding sequences
     :return: information about sequences
+    :except OSError: file read error
     """
     sequences = sequence.Sequences()
 

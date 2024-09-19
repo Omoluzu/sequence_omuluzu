@@ -2,7 +2,7 @@ import os
 import sys
 import ffmpeg
 
-from src.sequence import SequenceInfo
+from src.sequence import SequenceInfo, Config
 
 
 def sequence(
@@ -13,7 +13,6 @@ def sequence(
     :param output_adapter: todo
     :param frame_rate: frame rate
     """
-
     process = (
         ffmpeg.output(
             ffmpeg.input(
@@ -21,7 +20,7 @@ def sequence(
                 start_number=sequence_info.start_number,
                 framerate=frame_rate
             ),
-            os.path.join(sequence_info.output_name)
+            os.path.join(Config.output_path, sequence_info.output_name)
         ).global_args(
             '-progress', 'pipe:1'
         ).run_async(

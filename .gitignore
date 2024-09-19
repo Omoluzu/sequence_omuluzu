@@ -4,3 +4,4 @@ files/*
 tests/*
 .linux_venv/*
 *.mp4
+config.ini

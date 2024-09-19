@@ -20,7 +20,10 @@ def sequence(
                 start_number=sequence_info.start_number,
                 framerate=frame_rate
             ),
-            os.path.join(Config.output_path, sequence_info.output_name)
+            os.path.join(str(Config.output_path), sequence_info.output_name),
+            vcodec='mjpeg',
+            qscale=1,
+            an=None
         ).global_args(
             '-progress', 'pipe:1'
         ).run_async(

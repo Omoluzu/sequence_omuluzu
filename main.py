@@ -1,103 +1,14 @@
-import os.path
 import sys
 import threading
 from pathlib import Path
 from PySide6.QtWidgets import (
-    QApplication, QMainWindow,
+    QApplication, QMainWindow, QMessageBox,
     QPushButton, QVBoxLayout, QHBoxLayout,
-    QWidget, QScrollArea,
-    QFileDialog, QCheckBox,
-    QMessageBox
+    QWidget, QFileDialog
 )
-from PySide6.QtMultimedia import QMediaPlayer, QAudioOutput
-from PySide6.QtMultimediaWidgets import QVideoWidget
-from PySide6.QtCore import QUrl
 
 from src.sequence.script import sequence, get_sequence_all_name
-from src.sequence import Config, SequenceInfo
-
-
-class CheckSequenceWidget(QWidget):
-    def __init__(self, main, sequence_info: SequenceInfo, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.main = main
-        self.sequence_info = sequence_info
-
-        self.check = QCheckBox(sequence_info.regular)
-
-        self.play = QPushButton('play')
-        self.play.clicked.connect(self.action_play_video)
-
-        self.layout = QHBoxLayout(self)
-        self.layout.addWidget(self.check)
-
-        if os.path.exists(self.path_video):
-            self.layout.addWidget(self.play)
-
-    @property
-    def path_video(self):
-        return os.path.join(
-            str(Config.output_path), self.sequence_info.output_name)
-
-    def isChecked(self):
-        return self.check.isChecked()
-
-    def text(self):
-        return self.check.text()
-
-    def input(self, value: str):
-        key, value = value.split('=')
-
-        match key:
-            case 'progress':
-                text = self.text().split(' [')
-                self.check.setText(text[0] + ' [' + value + ']')
-
-    def action_play_video(self):
-        video_file = self.path_video
-        self.main.player_video.player.setSource(QUrl.fromLocalFile(video_file))
-        self.main.player_video.player.play()
-
-
-class CheckBoxWidget(QWidget):
-    def __init__(self, main):
-        super().__init__()
-
-        self.scroll_area = QScrollArea()
-        self.scroll_area.setWidget(self)
-        self.scroll_area.setWidgetResizable(True)
-
-        self.main = main
-        self.layout = QVBoxLayout(self)
-        self.setLayout(self.layout)
-
-        self.setStyleSheet("""
-            background-color: white;
-        """)
-
-    def finds(self):
-        checkboxes: list[CheckSequenceWidget] = self.findChildren(CheckSequenceWidget)
-        for checkbox in checkboxes:
-            if checkbox.isChecked():
-                self.main.run_sequence(checkbox)
-
-
-class PlayVideoWidget(QWidget):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.setFixedWidth(800)
-
-        self.player = QMediaPlayer()
-        self.audio_output = QAudioOutput()
-        self.video_widget = QVideoWidget()
-
-        self.player.setAudioOutput(self.audio_output)
-        self.player.setVideoOutput(self.video_widget)
-
-        layout = QVBoxLayout()
-        layout.addWidget(self.video_widget)
-
-        self.setLayout(layout)
+from src.sequence import Config, widgets
 
 
 class MainWindow(QMainWindow):
@@ -111,12 +22,12 @@ class MainWindow(QMainWindow):
         self.select_folder = QPushButton("Выбрать папку")
         self.select_folder.clicked.connect(self.open_folder_dialog)
 
-        self.checkbox_widget = CheckBoxWidget(self)
+        self.checkbox_widget = widgets.ShowCheckBox(self)
 
         self.show_all_checkbox = QPushButton("RUN")
         self.show_all_checkbox.clicked.connect(self.checkbox_widget.finds)
 
-        self.player_video = PlayVideoWidget()
+        self.player_video = widgets.PlayVideo()
 
         self.layout = QVBoxLayout()
 
@@ -140,11 +51,7 @@ class MainWindow(QMainWindow):
             except OSError as err:
                 show_error_message(str(err))
             else:
-                for name in self.sequences.names:
-                    checkbox = CheckSequenceWidget(
-                        main=self,
-                        sequence_info=self.sequences.get_sequence(name))
-                    self.checkbox_widget.layout.addWidget(checkbox)
+                self.checkbox_widget.added_sequences(self.sequences)
 
     def run_sequence(self, sequence_name):
         thread = threading.Thread(

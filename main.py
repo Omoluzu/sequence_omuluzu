@@ -9,14 +9,18 @@ from PySide6.QtWidgets import (
     QFileDialog, QCheckBox,
     QMessageBox
 )
+from PySide6.QtMultimedia import QMediaPlayer, QAudioOutput
+from PySide6.QtMultimediaWidgets import QVideoWidget
+from PySide6.QtCore import QUrl
 
 from src.sequence.script import sequence, get_sequence_all_name
 from src.sequence import Config, SequenceInfo
 
 
 class CheckSequenceWidget(QWidget):
-    def __init__(self, sequence_info: SequenceInfo, *args, **kwargs):
+    def __init__(self, main, sequence_info: SequenceInfo, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.main = main
         self.sequence_info = sequence_info
 
         self.check = QCheckBox(sequence_info.regular)
@@ -50,7 +54,9 @@ class CheckSequenceWidget(QWidget):
                 self.check.setText(text[0] + ' [' + value + ']')
 
     def action_play_video(self):
-        print(self.path_video)
+        video_file = self.path_video
+        self.main.player_video.player.setSource(QUrl.fromLocalFile(video_file))
+        self.main.player_video.player.play()
 
 
 class CheckBoxWidget(QWidget):
@@ -76,15 +82,33 @@ class CheckBoxWidget(QWidget):
                 self.main.run_sequence(checkbox)
 
 
+class PlayVideoWidget(QWidget):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.setFixedWidth(800)
+
+        self.player = QMediaPlayer()
+        self.audio_output = QAudioOutput()
+        self.video_widget = QVideoWidget()
+
+        self.player.setAudioOutput(self.audio_output)
+        self.player.setVideoOutput(self.video_widget)
+
+        layout = QVBoxLayout()
+        layout.addWidget(self.video_widget)
+
+        self.setLayout(layout)
+
+
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         Config()
 
         self.setWindowTitle("Omoluzu Sequence")
-        self.setGeometry(100, 100, 800, 600)
+        self.setGeometry(100, 100, 1400, 600)
 
-        self.select_folder = QPushButton("Выбрать папку")  # todo: Асинхранный выбор папки, а точнее анализа файлов в нем, так как он сейчас блокирует приложение
+        self.select_folder = QPushButton("Выбрать папку")
         self.select_folder.clicked.connect(self.open_folder_dialog)
 
         self.checkbox_widget = CheckBoxWidget(self)
@@ -92,14 +116,20 @@ class MainWindow(QMainWindow):
         self.show_all_checkbox = QPushButton("RUN")
         self.show_all_checkbox.clicked.connect(self.checkbox_widget.finds)
 
+        self.player_video = PlayVideoWidget()
+
         self.layout = QVBoxLayout()
 
         self.layout.addWidget(self.select_folder)
         self.layout.addWidget(self.checkbox_widget.scroll_area)
         self.layout.addWidget(self.show_all_checkbox)
 
+        self.general_layout = QHBoxLayout()
+        self.general_layout.addLayout(self.layout)
+        self.general_layout.addWidget(self.player_video)
+
         container = QWidget()
-        container.setLayout(self.layout)
+        container.setLayout(self.general_layout)
         self.setCentralWidget(container)
 
     def open_folder_dialog(self):
@@ -112,6 +142,7 @@ class MainWindow(QMainWindow):
             else:
                 for name in self.sequences.names:
                     checkbox = CheckSequenceWidget(
+                        main=self,
                         sequence_info=self.sequences.get_sequence(name))
                     self.checkbox_widget.layout.addWidget(checkbox)
 

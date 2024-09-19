@@ -28,6 +28,8 @@ class SequenceWidget(QWidget):
         if not os.path.exists(self.path_video):
             self.play.hide()
             self.delete.hide()
+        else:
+            self.check.setDisabled(True)
 
     @property
     def path_video(self) -> str:
@@ -50,13 +52,17 @@ class SequenceWidget(QWidget):
         :param value: output command"""
         key, value = value.split('=')
 
-        match key:
-            case 'progress':
+        match key, value:
+            case 'progress', 'end':
                 text = self.text().split(' [')
-                self.check.setText(text[0] + ' [' + value + ']')
-                if value == 'end':
-                    self.play.show()
-                    self.delete.show()
+                self.play.show()
+                self.delete.show()
+                self.check.setText(text[0])
+            case 'progress', 'continue':
+                text = self.text().split(' [')
+                self.check.setText(text[0] + ' [in process]')
+                self.check.setDisabled(True)
+                self.check.setChecked(False)
 
     def action_play_video(self) -> None:
         """Play video to VideoWidget"""
@@ -70,3 +76,4 @@ class SequenceWidget(QWidget):
         os.remove(self.path_video)
         self.play.hide()
         self.delete.hide()
+        self.check.setDisabled(False)

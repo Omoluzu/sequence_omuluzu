@@ -27,7 +27,7 @@ class MainWindow(QMainWindow):
 
         self.checkbox_widget = widgets.ShowCheckBox(self)
 
-        self.show_all_checkbox = QPushButton("RUN")
+        self.show_all_checkbox = QPushButton("Выполнить секвенцию")
         self.show_all_checkbox.clicked.connect(self.checkbox_widget.finds)
 
         self.player_video = widgets.PlayVideo()
@@ -56,11 +56,11 @@ class MainWindow(QMainWindow):
             else:
                 self.checkbox_widget.added_sequences(self.sequences)
 
-    def run_sequence(self, sequence_name):
+    def run_sequence(self, sequence_widget):
         thread = threading.Thread(
             target=sequence,
             args=(self.sequences.get_sequence(
-                sequence_name.text()), sequence_name  # todo: В имя текста есть дополнительная информация [end] которая при повторном запуске не находит sequence
+                sequence_widget.text()), sequence_widget
             )
         )
         thread.start()

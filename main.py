@@ -11,6 +11,9 @@ from src.sequence.script import sequence, get_sequence_all_name
 from src.sequence import Config, widgets
 
 
+# todo: просто его надо снимать автоматически, может файл быть в сборке а его пытаюся еще собрать.
+#  Так же если файла уже собран и его пытаюся собрать программа так же собирает его заного
+
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()

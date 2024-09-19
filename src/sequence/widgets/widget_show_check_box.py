@@ -21,7 +21,7 @@ class ShowCheckBoxWidget(QWidget):
         """)
 
     def finds(self):
-        checkboxes = self.findChildren(QWidget)
+        checkboxes = self.findChildren(widgets.Sequence)
         for checkbox in checkboxes:
             if checkbox.isChecked():
                 self.main.run_sequence(checkbox)

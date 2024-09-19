@@ -41,6 +41,8 @@ class SequenceWidget(QWidget):
             case 'progress':
                 text = self.text().split(' [')
                 self.check.setText(text[0] + ' [' + value + ']')
+                if value == 'end':
+                    self.layout.addWidget(self.play)
 
     def action_play_video(self):
         video_file = self.path_video

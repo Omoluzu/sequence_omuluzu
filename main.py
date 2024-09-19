@@ -13,9 +13,20 @@ from src.sequence.script import sequence, get_sequence_all_name
 from src.sequence import Config
 
 
-class CheckSequenceWidget(QCheckBox):
-    def __init__(self, *args, **kwargs):
+class CheckSequenceWidget(QWidget):
+    def __init__(self, text, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
+        self.check = QCheckBox(text)
+
+        self.layout = QVBoxLayout(self)
+        self.layout.addWidget(self.check)
+
+    def isChecked(self):
+        return self.check.isChecked()
+
+    def text(self):
+        return self.check.text()
 
     def input(self, value: str):
         key, value = value.split('=')
@@ -26,7 +37,7 @@ class CheckSequenceWidget(QCheckBox):
 
                 text = self.text().split(' [')
                 print(text)
-                self.setText(text[0] + ' [' + value + ']')
+                self.check.setText(text[0] + ' [' + value + ']')
 
 
 class CheckBoxWidget(QWidget):
@@ -87,7 +98,7 @@ class MainWindow(QMainWindow):
                 show_error_message(str(err))
             else:
                 for name in self.sequences.names:
-                    checkbox = CheckSequenceWidget(name)
+                    checkbox = CheckSequenceWidget(text=name)
                     self.checkbox_widget.layout.addWidget(checkbox)
 
     def run_sequence(self, sequence_name):

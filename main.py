@@ -10,14 +10,14 @@ from PySide6.QtWidgets import (
 )
 
 from src.sequence.script import sequence, get_sequence_all_name
-from src.sequence import Config
+from src.sequence import Config, SequenceInfo
 
 
 class CheckSequenceWidget(QWidget):
-    def __init__(self, text, *args, **kwargs):
+    def __init__(self, sequence_info: SequenceInfo, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        self.check = QCheckBox(text)
+        self.check = QCheckBox(sequence_info.regular)
 
         self.layout = QVBoxLayout(self)
         self.layout.addWidget(self.check)
@@ -33,10 +33,7 @@ class CheckSequenceWidget(QWidget):
 
         match key:
             case 'progress':
-                print(value)
-
                 text = self.text().split(' [')
-                print(text)
                 self.check.setText(text[0] + ' [' + value + ']')
 
 
@@ -98,7 +95,8 @@ class MainWindow(QMainWindow):
                 show_error_message(str(err))
             else:
                 for name in self.sequences.names:
-                    checkbox = CheckSequenceWidget(text=name)
+                    checkbox = CheckSequenceWidget(
+                        sequence_info=self.sequences.get_sequence(name))
                     self.checkbox_widget.layout.addWidget(checkbox)
 
     def run_sequence(self, sequence_name):

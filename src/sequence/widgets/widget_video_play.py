@@ -6,7 +6,7 @@ from PySide6.QtMultimediaWidgets import QVideoWidget
 class PlayVideoWidget(QWidget):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.setFixedWidth(800)
+        self.resize(400, self.height())
 
         self.player = QMediaPlayer()
         self.audio_output = QAudioOutput()

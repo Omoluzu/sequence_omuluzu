@@ -1,9 +1,10 @@
+import os.path
 import sys
 import threading
 from pathlib import Path
 from PySide6.QtWidgets import (
     QApplication, QMainWindow,
-    QPushButton, QVBoxLayout,
+    QPushButton, QVBoxLayout, QHBoxLayout,
     QWidget, QScrollArea,
     QFileDialog, QCheckBox,
     QMessageBox
@@ -16,11 +17,23 @@ from src.sequence import Config, SequenceInfo
 class CheckSequenceWidget(QWidget):
     def __init__(self, sequence_info: SequenceInfo, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.sequence_info = sequence_info
 
         self.check = QCheckBox(sequence_info.regular)
 
-        self.layout = QVBoxLayout(self)
+        self.play = QPushButton('play')
+        self.play.clicked.connect(self.action_play_video)
+
+        self.layout = QHBoxLayout(self)
         self.layout.addWidget(self.check)
+
+        if os.path.exists(self.path_video):
+            self.layout.addWidget(self.play)
+
+    @property
+    def path_video(self):
+        return os.path.join(
+            str(Config.output_path), self.sequence_info.output_name)
 
     def isChecked(self):
         return self.check.isChecked()
@@ -35,6 +48,9 @@ class CheckSequenceWidget(QWidget):
             case 'progress':
                 text = self.text().split(' [')
                 self.check.setText(text[0] + ' [' + value + ']')
+
+    def action_play_video(self):
+        print(self.path_video)
 
 
 class CheckBoxWidget(QWidget):

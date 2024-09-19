@@ -14,16 +14,17 @@ def sequence(
     :param frame_rate: frame rate
     """
     process = (
-        ffmpeg.output(
-            ffmpeg.input(
-                os.path.join(sequence_info.full_path, sequence_info.regular),
-                start_number=sequence_info.start_number,
-                framerate=frame_rate
-            ),
+        ffmpeg.input(
+            os.path.join(sequence_info.full_path, sequence_info.regular),
+            start_number=sequence_info.start_number,
+            framerate=frame_rate
+        ).output(
             os.path.join(str(Config.output_path), sequence_info.output_name),
             vcodec='mjpeg',
             qscale=1,
-            an=None
+            an=None,
+            color_range='pc',
+            pix_fmt='yuv420p'
         ).global_args(
             '-progress', 'pipe:1'
         ).run_async(
@@ -55,6 +56,6 @@ def sequence(
             """
 
     # Получение ошибок, если они есть
-    stderr = process.stderr.read()
-    if stderr:
-        print(stderr.decode(), file=sys.stderr)
+    # stderr = process.stderr.read()
+    # if stderr:
+    #     print(stderr.decode(), file=sys.stderr)

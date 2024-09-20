@@ -1,3 +1,6 @@
+__version__ = '1.0.0'
+__author__ = 'Volkov Aleksey'
+
 import os.path
 import sys
 import threading
@@ -49,7 +52,7 @@ class MainWindow(QMainWindow):
         super().__init__()
         Config()
 
-        self.setWindowTitle("Omoluzu Sequence")
+        self.setWindowTitle(f"Sequence (Волков Алексей) v.{__version__}")
 
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint)
         self.title_bar = widgets.TitleBar(self)

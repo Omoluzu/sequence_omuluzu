@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 512 512"
+   version="1.1"
+   id="svg27583"
+   sodipodi:docname="trash.svg"
+   inkscape:version="1.2.2 (732a01da63, 2022-12-09)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs27587" />
+  <sodipodi:namedview
+     id="namedview27585"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="2.0058594"
+     inkscape:cx="123.63778"
+     inkscape:cy="255.75073"
+     inkscape:window-width="3440"
+     inkscape:window-height="1334"
+     inkscape:window-x="-11"
+     inkscape:window-y="-11"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg27583" />
+  <path
+     fill="var(--ci-primary-color, currentColor)"
+     d="M96,472a23.82,23.82,0,0,0,23.579,24H392.421A23.82,23.82,0,0,0,416,472V152H96Zm32-288H384V464H128Z"
+     class="ci-primary"
+     id="path27573"
+     style="stroke:none;fill:#ebebeb;fill-opacity:1" />
+  <rect
+     width="32"
+     height="200"
+     x="168"
+     y="216"
+     fill="var(--ci-primary-color, currentColor)"
+     class="ci-primary"
+     id="rect27575"
+     style="fill:#ebebeb;fill-opacity:1;stroke:none;stroke-opacity:1" />
+  <rect
+     width="32"
+     height="200"
+     x="240"
+     y="216"
+     fill="var(--ci-primary-color, currentColor)"
+     class="ci-primary"
+     id="rect27577"
+     style="fill:#ebebeb;fill-opacity:1;stroke:none;stroke-opacity:1" />
+  <rect
+     width="32"
+     height="200"
+     x="312"
+     y="216"
+     fill="var(--ci-primary-color, currentColor)"
+     class="ci-primary"
+     id="rect27579"
+     style="fill:#ebebeb;fill-opacity:1;stroke:none;stroke-opacity:1" />
+  <path
+     fill="var(--ci-primary-color, currentColor)"
+     d="M328,88V40c0-13.458-9.488-24-21.6-24H205.6C193.488,16,184,26.542,184,40V88H64v32H448V88ZM216,48h80V88H216Z"
+     class="ci-primary"
+     id="path27581"
+     style="fill:#ebebeb;fill-opacity:1;stroke:none;stroke-opacity:1" />
+</svg>

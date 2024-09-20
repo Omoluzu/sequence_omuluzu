@@ -1,7 +1,7 @@
 import os
 
 from PySide6.QtWidgets import QWidget, QCheckBox, QPushButton, QHBoxLayout
-from PySide6.QtCore import QUrl
+from PySide6.QtCore import QUrl, Qt
 
 from src.sequence import Config, SequenceInfo
 
@@ -12,18 +12,32 @@ class SequenceWidget(QWidget):
         self.main = main
         self.sequence_info = sequence_info
 
+        self.setAttribute(Qt.WA_StyledBackground)
+        self.setObjectName('sequence_widget')
+        self.setFixedHeight(40)
+
         self.check = QCheckBox(sequence_info.regular)
+        self.check.setObjectName('sequence_checkbox')
 
-        self.play = QPushButton('play')
+        self.play = QPushButton()
         self.play.clicked.connect(self.action_play_video)
+        self.play.setFixedSize(30, 30)
+        self.play.setObjectName('play_button')
 
-        self.delete = QPushButton('deleted')
+        self.delete = QPushButton()
         self.delete.clicked.connect(self.action_deleted_video)
+        self.delete.setFixedSize(30, 30)
+        self.delete.setObjectName('deleted_button')
 
-        self.layout = QHBoxLayout(self)
+        self.layout = QHBoxLayout()
         self.layout.addWidget(self.check)
         self.layout.addWidget(self.play)
         self.layout.addWidget(self.delete)
+
+        self.setLayout(self.layout)
+
+        self.layout.setContentsMargins(3, 3, 3, 3)
+        self.layout.setSpacing(3)
 
         if not os.path.exists(self.path_video):
             self.play.hide()

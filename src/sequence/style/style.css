@@ -1,0 +1,96 @@
+/* Общие */
+#central_widget { background-color: #353540; }
+
+
+QSplitter::handle {
+    image: url(src/sequence/style/dots-vertical-thin.svg);
+    background-repeat: no-repeat; /* Не повторять изображение */
+    background-position: center;
+    background-color: transparent;
+}
+
+QSplitter::handle:vertical {
+    height: 7px; /* Высота ручки для вертикального разделителя */
+}
+
+#select_button, #sequence_button {
+    border: none;
+    border-radius: 8px;
+    background-color: #4B4B53;
+    color: #EBEBEB;
+    padding: 12px 20px;
+}
+#select_button:hover, #sequence_button:hover{
+    background-color: #676773;
+}
+
+#box, #scroll_area {
+    border: none;
+    border-radius: 8px;
+    background-color: #EBEBEB;
+}
+
+#sequence_widget {
+    border: 1px solid dark;
+    background-color: #4B4B53;
+    border-radius: 8px;
+}
+#sequence_widget:hover {
+    background-color: #676773;
+}
+
+#play_button, #deleted_button {
+    color: red;
+    border-radius: 6px;
+}
+
+#deleted_button {
+    image: url(src/sequence/style/trash.svg);
+}
+#deleted_button:hover {
+    image: url(src/sequence/style/trash-hover.svg);
+}
+
+#play_button {
+    image: url(src/sequence/style/play-outline.svg);
+}
+#play_button:hover {
+    image: url(src/sequence/style/play-outline-hover.svg);
+}
+
+#sequence_checkbox {
+    color: #EBEBEB;
+    font-family: SF Pro Display;
+    font-size: 15px;
+}
+
+#sequence_checkbox::indicator {
+    border: 1px solid dark;
+    border-radius: 3px;
+    width: 16px;
+    height: 16px;
+}
+
+#sequence_checkbox::indicator:unchecked  {
+    background-color: #EBEBEB;
+}
+
+
+#sequence_checkbox::indicator:disabled {
+    background-color: #4B4B53;
+}
+
+#sequence_checkbox::indicator:checked {
+    background-color: #EBEBEB;
+    image: url(src/sequence/style/heavy-check-mark.svg);
+}
+
+
+/* Верхняя панель */
+#title_widget {
+    color: #EBEBEB;
+    font-weight: bold;
+    font-family: SF Pro Display;
+}
+#title_buttons { border: none; background-color: #4B4B53; }
+#title_buttons:hover { background-color: #676773; }

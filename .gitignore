@@ -1,5 +1,4 @@
 .venv/*
-files/*
 .idea/*
 tests/*
 .linux_venv/*

@@ -10,7 +10,7 @@ def sequence(
 ) -> None:
     """file sequence
     :param sequence_info: Input file
-    :param output_adapter: todo
+    :param output_adapter:
     :param frame_rate: frame rate
     """
     process = (

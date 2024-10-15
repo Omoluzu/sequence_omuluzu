@@ -12,8 +12,8 @@ def get_sequence_all_name(path: Path) -> 'sequence.Sequences':
     """
     sequences = sequence.Sequences()
 
-    for file in path.rglob('*.jpg'):  # todo: и даже инициализацию, см комментарий ниже
-        file_match = re.match(  # todo: Весь данный функционал можно закинуть я думаю в add_sequence
+    for file in path.rglob('*.jpg'):
+        file_match = re.match(
             r"^(?P<name>.+?)((?P<number>\d+)(?:\.jpg))$",
             file.name
         )
@@ -21,7 +21,7 @@ def get_sequence_all_name(path: Path) -> 'sequence.Sequences':
         try:
             number = str(len(file_match.group('number')))
         except AttributeError:
-            pass  # todo:  наверное тут надо как то сохранить информацию об ошибке и передать конечному пользователю.
+            pass
             continue
 
         regular_number = '%0' + number + 'd' + file.suffix
@@ -32,7 +32,7 @@ def get_sequence_all_name(path: Path) -> 'sequence.Sequences':
                 sequence.SequenceInfo(
                     regular=regular_name,
                     full_path=file.absolute().parent,
-                    output_name=file_match.group('name').strip() + '.mp4',  # todo: позаботиться о лишней точке иногда бывает ..mp4
+                    output_name=file_match.group('name').strip() + '.mp4',
                     start_number=int(file_match.group('number'))
                 )
             )

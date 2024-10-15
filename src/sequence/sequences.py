@@ -1,7 +1,7 @@
 from collections import namedtuple
 from typing import Set
 
-SequenceInfo = namedtuple(  # todo: Все таки он должен быть не namedtupled
+SequenceInfo = namedtuple(
     'SequenceInfo',
     ['regular', 'full_path', 'output_name', 'start_number']
 )

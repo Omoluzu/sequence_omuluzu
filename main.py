@@ -35,7 +35,7 @@ class SequenceFileWidget(QWidget):
 
         self.checkbox_widget = widgets.ShowCheckBox(main)
 
-        self.sequence_button = QPushButton("Выполнить секвенцию")
+        self.sequence_button = QPushButton("Собрать видео файл")
         self.sequence_button.clicked.connect(self.checkbox_widget.finds)
         self.sequence_button.setIcon(document_icon)
         self.sequence_button.setObjectName('sequence_button')
